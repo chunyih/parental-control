@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>Phone</title>
+  <link rel="stylesheet" href="https://d10ajoocuyu32n.cloudfront.net/mobile/1.3.1/jquery.mobile-1.3.1.min.css">
+  <link rel="stylesheet" href="codiqa.ext.css">
+  <link rel="stylesheet" href="https://codiqa.com/view/049aa4fc/css">
+  <script src="https://d10ajoocuyu32n.cloudfront.net/jquery-1.9.1.min.js"></script>
+  <script src="https://d10ajoocuyu32n.cloudfront.net/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+  <script src="https://d10ajoocuyu32n.cloudfront.net/codiqa.ext.js"></script>
+  <script src="https://codiqa.com/view/049aa4fc/js"></script>
+  <script src="https://apigee.com/usergrid/sdk/usergrid.0.10.5.js"></script>
+  
+  <script type="text/javascript">
+    var client = new Usergrid.Client({orgName:'chenei', appName:'sandbox'});
+    //var my_data = new Usergrid.Collection({"client":client, "type":"log" }); //create an empty object
+    
+    var cTime = new Date();
+    var cHour = cTime.getHours();
+    var cMin = cTime.getMinutes();
+    var cSec = cTime.getSeconds();
+    var cTimeInMin = cHour*60 + cMin;
+
+    var userName = "Addie";
+    var quota = 0;
+
+    client.getEntity({type:"log", name:userName}, function(err, din){
+      if (err){
+        console.log("could not log data");
+      } else {
+          data = din;
+          quota = data.get("quota");
+          if(quota > 0){
+            $('span#minLeft').append(quota);
+            //window.location.href = "browser.html";
+            alert('You have '+quota+' minutes left!');
+            $('#start').show();
+          } else {
+            $('span#minLeft').append(quota);
+          };
+      }                
+    });
+     
+  </script>   
+</head>
+
+<body>
+  <div data-role="page" id="page1">
+      <div data-theme="b" data-role="header">
+          <h3>
+              Ask Mon!
+          </h3>
+      </div>
+      <div data-role="content">
+          <div id="msg1">
+              <p id="msg1Text">
+                Current time:
+              </p>
+              <p id="minMsg">
+                You have <span id="minLeft"></span> minutes left.
+              </p>
+              <br><br>
+              <p>
+                Set new cutoff time:
+              </p>
+          </div>
+          <div data-role="fieldcontain">
+              <input name="timeInput" id="timeInput" placeholder="" value="" type="time">
+            <form id="target">   
+                <input type="button" value="Set" />
+            </form>
+            <form id="start">   
+                <input type="button" value="Start Browsing!" />
+            </form>
+          </div>
+          <div>
+          <!--<div id="msg2">
+              <p>
+                  Debug Area:
+              </p>
+          </div>-->
+          
+      </div>
+  </div>
+
+  <script>
+   $(document).on('pageinit',function(){
+        if (quota === 0) {
+          $('#start').hide();
+        };
+      
+        $('#msg1Text').append(cHour+':'+cMin);
+        $('#msg2').append('cTimeInMin: '+cTimeInMin+'<br>');
+
+        $('#target').click(function(){
+
+          var tTime = $('#timeInput').val();
+          $('#msg2').append('Target Time: '+tTime+'<br>');
+
+          var tHour = Math.floor($('#timeInput').val()[0])*10 + Math.floor($('#timeInput').val()[1]);
+          var tMin = Math.floor($('#timeInput').val()[3])*10 + Math.floor($('#timeInput').val()[4]);
+          var tTimeInMin = tHour*60 + tMin;
+          var newquota = tTimeInMin - cTimeInMin;
+
+          $('#msg2').append('Target Time In Min: '+tTimeInMin+'<br>');
+          $('#msg2').append('newquota: '+newquota+'<br>');
+
+          data.set("quota", newquota);
+          data.save();
+
+          setTimeout(function(){
+            client.getEntity({type:"log", name:userName}, function(err, din){
+              if (err){
+                console.log("could not log data");
+              } else {
+                  data = din;
+                  quota = data.get("quota");
+                  if(quota > 0){
+                    $('span#minLeft').empty().append(quota);
+                    alert('You have '+quota+' minutes left!');
+                    $('#start').show();
+                  } else {
+                    $('span#minLeft').empty().append(quota);
+                    alert('You have '+quota+' minutes left!');
+                    $('#start').hide();
+                  };
+              }                
+            });
+          }, 1000);
+
+          $('#start').click(function(){
+            window.location.href = "browser.html";
+          });
+        });
+    });
+  //$.mobile.changePage("browser.html");
+  </script>
+
+</body>
+</html>
