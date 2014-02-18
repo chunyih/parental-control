@@ -11,4 +11,9 @@ A browser timer app that allows parents to control children’s internet surfing
 #### Info  
 - Using: Usergrid, jQuery Mobile, Codiqa, Phonegap, Apigee API 
 - Built with Phonegap, simulated in Xcode iOS Simulator
-- The code here is a browser simulated version. In-page browser feature is not available.
+<br>
+<br>
+
+#### Demo
+[Here](http://jsbin.com/AcuQOWE/1/edit?html,output)
+*This is a browser simulated version. In-page browser feature is not available.
