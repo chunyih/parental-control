@@ -15,5 +15,4 @@ A browser timer app that allows parents to control children’s internet surfing
 <br>
 
 #### Demo
-[Here](http://jsbin.com/AcuQOWE/1/edit?html,output)
-*This is a browser simulated version. In-page browser feature is not available.
+[Here](http://jsbin.com/AcuQOWE/1/edit?html,output) (This is a browser simulated version. In-page browser feature is not available.)
