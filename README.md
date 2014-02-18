@@ -1,4 +1,4 @@
-Phone Browsing Timer for Parental Control
+Phone Timer for Parental Control
 ===========
 #### An Hackathon Project
 
