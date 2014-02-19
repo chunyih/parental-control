@@ -1,6 +1,6 @@
 Phone Timer for Parental Control
 ===========
-#### An Hackathon Project
+#### A Hackathon Project
 
 *Apigee Hackathon, San Francisco; Jun. 22-23, 2013*
 
